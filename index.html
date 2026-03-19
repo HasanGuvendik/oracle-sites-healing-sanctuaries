@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         html, body, #map {
@@ -35,7 +36,8 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
-        <script src="data/OracleSites_1.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/Oracle_Sites_Healing_Sanctuaries_1.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -54,7 +56,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[35.03055278661636,19.389794916720593],[42.48914966083895,36.18532377439176]]);
+        }).fitBounds([[37.618972868785804,23.336989161280307],[41.60937069730217,29.112752150148914]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -147,7 +149,7 @@
             abstract.show = function () {
                 this._div.classList.remove("abstract");
                 this._div.classList.add("abstractUncollapsed");
-                this._div.innerHTML = 'This dataset contains Oracle sites and healing sanctuaries of mainly the Greco-Roman world. Though not comprehensive, it compiles and enables the mapping of nearly 300 sites. Site names are based on Trevor Curnow\'s "The Oracles of the Ancient World" (2004). Because the coordinates were off approx. 4km, toponyms were geocoded manually using Recogito to get accurate location data. at this stage, A tag for the type of site (whether it is a healing sanctuary or an oracle site) were also added as tags. To further enrich the data, a link to the ToposText has been added by using join fields tool and using the Pleiades URI to match the datasets in QGIS. ';
+                this._div.innerHTML = 'A map showing oracle sites (purple), healing sanctuaries (green) of the ancient mediterranean world. Based on Trevor Curnow\'s Oracles of the Ancient World (2005) this map was created for my BA thesis. Data was enriched using multiple methods (see readme). Users can search for spesific sites by clicking the binocular icon.';
         };
         abstract.addTo(map);
         var zoomControl = L.control.zoom({
@@ -169,7 +171,7 @@
         });
         layer_ESRISatellite_0;
         map.addLayer(layer_ESRISatellite_0);
-        function pop_OracleSites_1(feature, layer) {
+        function pop_Oracle_Sites_Healing_Sanctuaries_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -186,156 +188,31 @@
                         <td class="visible-with-data" id="Site Name">' + (feature.properties['Site Name'] !== null ? autolinker.link(String(feature.properties['Site Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">recogito_type</th>\
-                        <td class="visible-with-data" id="recogito_type">' + (feature.properties['recogito_type'] !== null ? autolinker.link(String(feature.properties['recogito_type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">recogito_uri</th>\
-                        <td class="visible-with-data" id="recogito_uri">' + (feature.properties['recogito_uri'] !== null ? autolinker.link(String(feature.properties['recogito_uri']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">recogito_lat</th>\
-                        <td class="visible-with-data" id="recogito_lat">' + (feature.properties['recogito_lat'] !== null ? autolinker.link(String(feature.properties['recogito_lat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">recogito_lon</th>\
-                        <td class="visible-with-data" id="recogito_lon">' + (feature.properties['recogito_lon'] !== null ? autolinker.link(String(feature.properties['recogito_lon']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">recogito_tags</th>\
+                        <th scope="row">Site Type</th>\
                         <td class="visible-with-data" id="recogito_tags">' + (feature.properties['recogito_tags'] !== null ? autolinker.link(String(feature.properties['recogito_tags']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">recogito_comments</th>\
+                        <th scope="row">Description</th>\
+                        <td class="visible-with-data" id="Topos_description">' + (feature.properties['Topos_description'] !== null ? autolinker.link(String(feature.properties['Topos_description']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Comments</th>\
                         <td class="visible-with-data" id="recogito_comments">' + (feature.properties['recogito_comments'] !== null ? autolinker.link(String(feature.properties['recogito_comments']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_@id</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_@id">' + (feature.properties['ToposTextGazetteer_joined_@id'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_@id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">ToposText</th>\
+                        <td class="visible-with-data" id="link_ToposText">' + (feature.properties['link_ToposText'] !== null ? autolinker.link(String(feature.properties['link_ToposText']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_type</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_type">' + (feature.properties['ToposTextGazetteer_joined_type'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">Gazetteer Link</th>\
+                        <td class="visible-with-data" id="recogito_uri">' + (feature.properties['recogito_uri'] !== null ? autolinker.link(String(feature.properties['recogito_uri']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_properties/title</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_properties/title">' + (feature.properties['ToposTextGazetteer_joined_properties/title'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_properties/title']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">Wikipedia Link</th>\
+                        <td class="visible-with-data" id="Topos_Wikipedia">' + (feature.properties['Topos_Wikipedia'] !== null ? autolinker.link(String(feature.properties['Topos_Wikipedia']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_properties/ccodes/0</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_properties/ccodes/0">' + (feature.properties['ToposTextGazetteer_joined_properties/ccodes/0'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_properties/ccodes/0']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_geometry/type</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_geometry/type">' + (feature.properties['ToposTextGazetteer_joined_geometry/type'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_geometry/type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_geometry/geometries/0/type</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_geometry/geometries/0/type">' + (feature.properties['ToposTextGazetteer_joined_geometry/geometries/0/type'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_geometry/geometries/0/type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_geometry/geometries/0/coordinates/0</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_geometry/geometries/0/coordinates/0">' + (feature.properties['ToposTextGazetteer_joined_geometry/geometries/0/coordinates/0'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_geometry/geometries/0/coordinates/0']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_geometry/geometries/0/coordinates/1</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_geometry/geometries/0/coordinates/1">' + (feature.properties['ToposTextGazetteer_joined_geometry/geometries/0/coordinates/1'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_geometry/geometries/0/coordinates/1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_when/timespans/0/start/in</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_when/timespans/0/start/in">' + (feature.properties['ToposTextGazetteer_joined_when/timespans/0/start/in'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_when/timespans/0/start/in']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_when/timespans/0/end/in</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_when/timespans/0/end/in">' + (feature.properties['ToposTextGazetteer_joined_when/timespans/0/end/in'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_when/timespans/0/end/in']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_when/label</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_when/label">' + (feature.properties['ToposTextGazetteer_joined_when/label'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_when/label']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_names/0/toponym</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_names/0/toponym">' + (feature.properties['ToposTextGazetteer_joined_names/0/toponym'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_names/0/toponym']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_names/0/lang</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_names/0/lang">' + (feature.properties['ToposTextGazetteer_joined_names/0/lang'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_names/0/lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_names/1/toponym</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_names/1/toponym">' + (feature.properties['ToposTextGazetteer_joined_names/1/toponym'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_names/1/toponym']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_names/1/lang</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_names/1/lang">' + (feature.properties['ToposTextGazetteer_joined_names/1/lang'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_names/1/lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_names/2/toponym</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_names/2/toponym">' + (feature.properties['ToposTextGazetteer_joined_names/2/toponym'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_names/2/toponym']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_names/2/lang</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_names/2/lang">' + (feature.properties['ToposTextGazetteer_joined_names/2/lang'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_names/2/lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_types/0/identifier</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_types/0/identifier">' + (feature.properties['ToposTextGazetteer_joined_types/0/identifier'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_types/0/identifier']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_types/0/label</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_types/0/label">' + (feature.properties['ToposTextGazetteer_joined_types/0/label'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_types/0/label']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_types/0/sourceLabel</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_types/0/sourceLabel">' + (feature.properties['ToposTextGazetteer_joined_types/0/sourceLabel'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_types/0/sourceLabel']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_links/0/type</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_links/0/type">' + (feature.properties['ToposTextGazetteer_joined_links/0/type'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_links/0/type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_links/1/type</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_links/1/type">' + (feature.properties['ToposTextGazetteer_joined_links/1/type'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_links/1/type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_links/1/identifier</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_links/1/identifier">' + (feature.properties['ToposTextGazetteer_joined_links/1/identifier'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_links/1/identifier']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_links/2/type</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_links/2/type">' + (feature.properties['ToposTextGazetteer_joined_links/2/type'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_links/2/type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_links/2/identifier</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_links/2/identifier">' + (feature.properties['ToposTextGazetteer_joined_links/2/identifier'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_links/2/identifier']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_descriptions/0/@id</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_descriptions/0/@id">' + (feature.properties['ToposTextGazetteer_joined_descriptions/0/@id'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_descriptions/0/@id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_descriptions/0/value</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_descriptions/0/value">' + (feature.properties['ToposTextGazetteer_joined_descriptions/0/value'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_descriptions/0/value']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_descriptions/0/lang</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_descriptions/0/lang">' + (feature.properties['ToposTextGazetteer_joined_descriptions/0/lang'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_descriptions/0/lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_relations/0/relationType</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_relations/0/relationType">' + (feature.properties['ToposTextGazetteer_joined_relations/0/relationType'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_relations/0/relationType']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_relations/0/relationTo</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_relations/0/relationTo">' + (feature.properties['ToposTextGazetteer_joined_relations/0/relationTo'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_relations/0/relationTo']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ToposTextGazetteer_joined_relations/0/label</th>\
-                        <td class="visible-with-data" id="ToposTextGazetteer_joined_relations/0/label">' + (feature.properties['ToposTextGazetteer_joined_relations/0/label'] !== null ? autolinker.link(String(feature.properties['ToposTextGazetteer_joined_relations/0/label']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">query_image</th>\
-                        <td class="visible-with-data" id="query_image">' + (feature.properties['query_image'] !== null ? '<img src="images/' + String(feature.properties['query_image']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
+                        <td class="visible-with-data" id="merged_wikimediaurl" colspan="2"><strong>Wikimedia Image</strong><br />' + (feature.properties['merged_wikimediaurl'] !== null ? autolinker.link(String(feature.properties['merged_wikimediaurl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -345,11 +222,11 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_OracleSites_1_0(feature) {
+        function style_Oracle_Sites_Healing_Sanctuaries_1_0(feature) {
             switch(String(feature.properties['recogito_tags'])) {
                 case 'both':
                     return {
-                pane: 'pane_OracleSites_1',
+                pane: 'pane_Oracle_Sites_Healing_Sanctuaries_1',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
@@ -359,13 +236,13 @@
                 weight: 1,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(222,37,83,1.0)',
+                fillColor: 'rgba(166,206,227,1.0)',
                 interactive: true,
             }
                     break;
                 case 'healing sanctuary':
                     return {
-                pane: 'pane_OracleSites_1',
+                pane: 'pane_Oracle_Sites_Healing_Sanctuaries_1',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
@@ -375,13 +252,13 @@
                 weight: 1,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(181,224,41,1.0)',
+                fillColor: 'rgba(133,182,111,1.0)',
                 interactive: true,
             }
                     break;
                 case 'oracle':
                     return {
-                pane: 'pane_OracleSites_1',
+                pane: 'pane_Oracle_Sites_Healing_Sanctuaries_1',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
@@ -391,50 +268,45 @@
                 weight: 1,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(147,125,220,1.0)',
+                fillColor: 'rgba(141,90,153,1.0)',
                 interactive: true,
             }
                     break;
                 default:
                     return {
-                pane: 'pane_OracleSites_1',
+                pane: 'pane_Oracle_Sites_Healing_Sanctuaries_1',
                 radius: 4.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
+                stroke: false,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(30,210,162,1.0)',
+                fillColor: 'rgba(196,60,57,1.0)',
                 interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane_OracleSites_1');
-        map.getPane('pane_OracleSites_1').style.zIndex = 401;
-        map.getPane('pane_OracleSites_1').style['mix-blend-mode'] = 'normal';
-        var layer_OracleSites_1 = new L.geoJson(json_OracleSites_1, {
+        map.createPane('pane_Oracle_Sites_Healing_Sanctuaries_1');
+        map.getPane('pane_Oracle_Sites_Healing_Sanctuaries_1').style.zIndex = 401;
+        map.getPane('pane_Oracle_Sites_Healing_Sanctuaries_1').style['mix-blend-mode'] = 'normal';
+        var layer_Oracle_Sites_Healing_Sanctuaries_1 = new L.geoJson(json_Oracle_Sites_Healing_Sanctuaries_1, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_OracleSites_1',
-            layerName: 'layer_OracleSites_1',
-            pane: 'pane_OracleSites_1',
-            onEachFeature: pop_OracleSites_1,
+            dataVar: 'json_Oracle_Sites_Healing_Sanctuaries_1',
+            layerName: 'layer_Oracle_Sites_Healing_Sanctuaries_1',
+            pane: 'pane_Oracle_Sites_Healing_Sanctuaries_1',
+            onEachFeature: pop_Oracle_Sites_Healing_Sanctuaries_1,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_OracleSites_1_0(feature));
+                return L.circleMarker(latlng, style_Oracle_Sites_Healing_Sanctuaries_1_0(feature));
             },
         });
-        bounds_group.addLayer(layer_OracleSites_1);
-        map.addLayer(layer_OracleSites_1);
+        bounds_group.addLayer(layer_Oracle_Sites_Healing_Sanctuaries_1);
+        map.addLayer(layer_Oracle_Sites_Healing_Sanctuaries_1);
         var overlaysTree = [
-            {label: 'OracleSites<br /><table><tr><td style="text-align: center;"><img src="legend/OracleSites_1_both0.png" /></td><td>both</td></tr><tr><td style="text-align: center;"><img src="legend/OracleSites_1_healingsanctuary1.png" /></td><td>healing sanctuary</td></tr><tr><td style="text-align: center;"><img src="legend/OracleSites_1_oracle2.png" /></td><td>oracle</td></tr><tr><td style="text-align: center;"><img src="legend/OracleSites_1_3.png" /></td><td></td></tr></table>', layer: layer_OracleSites_1},
+            {label: 'Oracle_Sites_Healing_Sanctuaries<br /><table><tr><td style="text-align: center;"><img src="legend/Oracle_Sites_Healing_Sanctuaries_1_Both0.png" /></td><td>Both</td></tr><tr><td style="text-align: center;"><img src="legend/Oracle_Sites_Healing_Sanctuaries_1_HealingSanctuary1.png" /></td><td>Healing Sanctuary</td></tr><tr><td style="text-align: center;"><img src="legend/Oracle_Sites_Healing_Sanctuaries_1_OracularSanctuary2.png" /></td><td>Oracular Sanctuary</td></tr><tr><td style="text-align: center;"><img src="legend/Oracle_Sites_Healing_Sanctuaries_1_Other3.png" /></td><td>Other</td></tr></table>', layer: layer_Oracle_Sites_Healing_Sanctuaries_1},
             {label: "ESRI Satellite", layer: layer_ESRISatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
@@ -447,6 +319,16 @@
         });
         lay.addTo(map);
         setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_Oracle_Sites_Healing_Sanctuaries_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Site Name'}));
+        if (typeof url === 'undefined') {
+            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
+        } else {
+            document.getElementsByClassName('search-button')[1].className += ' fa fa-binoculars';
+        }
         </script>        
     </body>
 </html>
