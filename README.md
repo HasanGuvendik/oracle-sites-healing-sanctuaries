@@ -1,5 +1,5 @@
 # Oracle Sites and Healing Sanctuaries
-This map was made for my BA thesis in order to visualise oracular sites and healing sanctuaries of the ancient Mediterranean and its periphery.
+This [map](https://hasanguvendik.github.io/oracle-sites-healing-sanctuaries/) was made for my BA thesis in order to visualise oracular sites and healing sanctuaries of the ancient Mediterranean and its periphery.
 ## Data
 <p align="justify">The dataset was created using multiple sources;
 
