@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this webmap, please cite it as follows."
+authors:
+  - family-names: Guvendik
+    given-names: Hasan
+    orcid: "https://orcid.org/0009-0008-1651-6593"
+title: "Oracle Sites and Healing Sanctuaries"
+version: 1.0.0
+doi: 10.5281/zenodo.19227180
+date-released: 2026-03-26
+url: "https://github.com/HasanGuvendik/oracle-sites-healing-sanctuaries"
+references:
+  - type: book
+    authors:
+      - family-names: Curnow
+        given-names: Trevor
+    title: "The Oracles of the Ancient World: A Comprehensive Guide"
+  - type: data
+    authors:
+      - name: "Esri"
+    title: "World Imagery (Satellite) Basemap"
