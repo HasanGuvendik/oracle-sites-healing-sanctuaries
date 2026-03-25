@@ -14,7 +14,7 @@ To further enrich the data, [ToposText](https://topostext.org/) dataset was used
 At first, I have tried to exclude really obviously speculative or ambiguous ones, sites that we are not certain of their location or do not exist by not tagging them. However, upon realising the herculean job and how impossible that is I have decided to make them visible on the map where location data is present. These sites are labelled as "Other". At any stage of this process some mistakes may have been made. 
 
 <p align="justify">Long story short, the difficulty with Curnow's work is caused by the nature of his book. His choice of not citing in-text (in order to make his work reach a wider audience) has caused some researchers (see Stoneman,p. 65) to question and challenge some of the things in Curnow's work. Despite these issues, Curnow's work is still valuable for giving a glimpse into the pervasiveness of divination. 
-By linking sites to major projects such as ToposText and [Pleiades](https://pleiades.stoa.org/) (from there one can also find links to other databases such as Perseus, EDH,PHI,MANTO and many others) , this project hopes the mitigate the aforementioned problems.</p>
+By linking sites to major projects such as ToposText and Pleiades (from there one can also find links to other databases such as Perseus, EDH,PHI,MANTO and many others) , this project hopes the mitigate the aforementioned problems.
 
 ### Related Sources 
 Curnow, Trevor. The Oracles of the Ancient World: A Complete Guide /. Duckworth, 2004.
